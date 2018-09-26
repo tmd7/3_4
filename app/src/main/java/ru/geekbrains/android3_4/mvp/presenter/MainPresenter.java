@@ -54,6 +54,13 @@ public class MainPresenter extends MvpPresenter<MainView>
                     //    //getViewState().updateList()
                     //});
 
+                    usersRepo.getRepos("googlesamples")
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(mainThreadScheduler)
+                        .subscribe(repos -> {
+                           getViewState().onSetAdapter(repos);
+                        });
+
 
                 }, throwable -> {
                     Timber.e(throwable, "Failed to get user");
